@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Tempo de geração: 05-Jul-2025 às 18:57
+-- Tempo de geração: 07-Jul-2025 às 01:56
 -- Versão do servidor: 8.0.18
 -- versão do PHP: 7.3.12
 
@@ -50,9 +50,27 @@ CREATE TABLE IF NOT EXISTS `filme` (
   `id` int(10) NOT NULL,
   `titulo` varchar(60) NOT NULL,
   `nota_media` double(1,1) UNSIGNED DEFAULT NULL,
+  `poster` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `titulo` (`titulo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Extraindo dados da tabela `filme`
+--
+
+INSERT INTO `filme` (`id`, `titulo`, `nota_media`, `poster`) VALUES
+(2, 'Ariel', NULL, 'https://image.tmdb.org/t/p/w500/3Bt8Tytl9gCRxShdmup7gN8AWSg.jpg'),
+(3, 'Sombras no Paraíso', NULL, 'https://image.tmdb.org/t/p/w500/o2cWCX48flnEgDwSWu0Gpia0i0N.jpg'),
+(5, 'Grande Hotel', NULL, 'https://image.tmdb.org/t/p/w500/6lNBW7dohayBDxNZlHnve6UlPSP.jpg'),
+(6, 'Uma Jogada do Destino', NULL, 'https://image.tmdb.org/t/p/w500/wAe3y4OO3zGpTSeLciBrnUMgKTE.jpg'),
+(8, 'Life in Loops (A Megacities RMX)', NULL, 'https://image.tmdb.org/t/p/w500/7ln81BRnPR2wqxuITZxEciCe1lc.jpg'),
+(9, 'Sonntag im August', NULL, ''),
+(11, 'Guerra nas Estrelas', NULL, 'https://image.tmdb.org/t/p/w500/dw7X9YPjjAfIxKHW04V64Bb9TB0.jpg'),
+(12, 'Procurando Nemo', NULL, 'https://image.tmdb.org/t/p/w500/5jrPMq7IMLTqcuPDlK6jfruEbpq.jpg'),
+(13, 'Forrest Gump: O Contador de Histórias', NULL, 'https://image.tmdb.org/t/p/w500/d74WpIsH8379TIL4wUxDneRCYv2.jpg'),
+(14, 'Beleza Americana', NULL, 'https://image.tmdb.org/t/p/w500/9PJKsH7Btz2xjYIvLLtJ7qcJlL3.jpg'),
+(15, 'Cidadão Kane', NULL, 'https://image.tmdb.org/t/p/w500/7RdvqkBX2gi6kiZ2yySeRqeClur.jpg');
 
 -- --------------------------------------------------------
 
@@ -66,7 +84,8 @@ CREATE TABLE IF NOT EXISTS `resenha` (
   `idfilme` int(10) NOT NULL,
   `idusuario` int(10) NOT NULL,
   `conteudo` varchar(2000) NOT NULL,
-  `utilCounter` int(10) DEFAULT '0',
+  `nota` double(1,1) NOT NULL,
+  `utilCounter` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idfilme` (`idfilme`),
   KEY `idusuario` (`idusuario`)
@@ -86,11 +105,10 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `email` varchar(50) NOT NULL,
   `senha` varchar(15) NOT NULL,
   `sobre` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fotoperfil` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Restrições para despejos de tabelas
