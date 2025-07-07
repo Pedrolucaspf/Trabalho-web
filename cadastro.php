@@ -9,33 +9,36 @@ session_start();
     <link rel="stylesheet" href="style.css">
     <title>Cadastro</title>
 </head>
-<body class="principal">
-    <form id="conteudo" action="inserir.php" method="post">
+<body>
+    <form action="inserir.php" method="post">
         <a href="index.php">Página principal</a>
         <h1>Cadastro</h1>
         <p> Já é cadastrado?<a href="login.php" style="color: blue;">Faça login</a></p>
         <label for="username">Nome de usuário:</label>
-        <input type="text" maxlength="40" size="40" name="username" placeholder="Nome de usuário" required>
+        <input type="text" maxlength="40" size="40" name="username" id="username" placeholder="Nome de usuário" required>
         <label for="email">Email:</label>
-        <input type="email" maxlength="50" size="40" name="email" placeholder="Email" required>
+        <input type="email" maxlength="50" size="40" name="email" id="email" placeholder="Email" required>
         <label for="password">Senha:</label>
-        <input type="password" maxlength="15" size="40" name="senha" placeholder="Senha" required>
-         <label for="foto">Foto de perfil:</label>
-        <input type="file" id="foto" name="foto">
+        <input type="password" maxlength="15" size="40" name="senha" id="senha" placeholder="Senha" required>
         <label for="sobre">Sobre você (opcional):</label>
         <textarea style="width: 400px" id="sobre" name="sobre" rows="40" cols="10"></textarea>
-        <button type="submit" name="cadastro" onclick="return validarCampos();">Enviar</button>
-
-        <?php
-        if(isset($_SESSION['usuario_existe'])):
-        ?>
+        <button type="submit" name="cadastro">Enviar</button>
         <div class="msg">
-            <p>Usuário já cadastrado</p>
-        </div>
         <?php
-        endif;
-        unset($_SESSION['usuario_existe']);
+        if(isset($_SESSION['email_existe'])){
         ?>
+            <p>Email já cadastrado</p>
+        <?php
+        }
+        elseif(isset($_SESSION['username_existe'])){
+        ?>
+            <p>Nome de usuário já cadastrado</p>
+        <?php
+        }
+        unset($_SESSION['username_existe']);
+        unset($_SESSION['email_existe']);
+        ?>
+        </div>
     </form>
 </body>
 </html>
