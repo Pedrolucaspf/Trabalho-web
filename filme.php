@@ -6,7 +6,7 @@
     header('Location: cadastro.php');
     exit;
   }
-  $sql = "SELECT * from resenha where idfilme = ".$id." ORDER BY utilCounter DESC";
+  $sql = "SELECT * from resenha where idfilme = $id";
   $resul = $con->query($sql);
   while($row = $resul->fetch_assoc()){
       echo "<br>Nome: ".$row['nome']."<br>Senha:".$row['senha'];
