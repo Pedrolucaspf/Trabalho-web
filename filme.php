@@ -2,14 +2,8 @@
   session_start();
   include("conexao.php");
   $id = $_GET['id'] ?? 0;
-  if($id!=0){
-    $_SESSION['filme'] = $id;
-  }
-  elseif(isset($_SESSION['filme'])){
-    $id = $_SESSION['filme'];
-  }
-  else{
-    header('Location: index.php');
+  if($id == 0){
+    header('Location: cadastro.php');
     exit;
   }
   $sql = "SELECT * from resenha where idfilme = ".$id." ORDER BY utilCounter DESC";
@@ -26,6 +20,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Detalhes do Filme</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; padding: 20px; }
+    img { max-width: 100%; border-radius: 8px; margin: 10px 0; }
+    iframe { width: 100%; height: 400px; margin-top: 20px; }
+  </style>
 </head>
 <body>
   <div id="idfilme" style="display:none;">
@@ -53,7 +52,7 @@
   <script>
     const apiKey = '3d95436f221ecc042835cce231115c26';
     const movieId = Number(document.getElementById("idfilme").innerHTML);
-    document.getElementById('movieId').value = movieId;
+
     async function carregarFilme() {
       const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pt-BR&append_to_response=videos,images,credits&include_image_language=undefined,null`;
 
@@ -121,19 +120,10 @@
     <input type="number" name="nota" id="nota" min="0" max="10" placeholder="Nota" required>
     <label for="texto">Texto:</label>
     <textarea id="texto" name="texto" rows="15" cols="45"></textarea>
-    <input type="hidden" name="movieId" id="movieId">
+    <input type="hidden" name="poster" id="poster">
     <input id="button" type="submit" value="Enviar">
   </form>
   <hr>
   <h3> Veja as resenhas de outros usuários:</h3>
-  <h5></h5>
-  <form action="avaliarresenha.php" method="post">
-    <label for="sim">Sim</label>
-    <input type="radio" id="sim" name="util" value="sim">
-    <label for="nao">Não</label>
-    <input type="radio" id="nao" name="util" value="nao">
-    <input type="hidden" name="resenhaId" id="resenhaId">
-    <input id="button" type="submit" value="Enviar">
-  </form>
 </body>
 </html>
