@@ -1,67 +1,27 @@
-<?php
-    session_start();
-    include("conexao.php");
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php include 'header.php'; ?>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Filmes Base | Sobre</title>
-    </head>
-    <body>
-        <div>
-            <div id="menu">
-                <?php
-                    if(isset($_SESSION['valido'])){
-                    $email = $_SESSION['email'];
-                    $sql="SELECT username from usuario where email= '$email'";
-                    $resul = $con->query($sql);
-                    $user = $resul->fetch_assoc();
-                    echo "Você está logado como: ".$user['username'];
-                ?>
-                <span class="opcao">
-                    <br><a href="index.php" style="color: rgb(172, 228, 235);">Página principal</a><br>
-                </span>
-                <span class="opcao">
-                    <br>Sobre<br>
-                </span>
-                <span class="opcao">
-                    <br><a href="meuperfil.php" style="color: rgb(172, 228, 235);">Seu perfil</a><br>
-                </span>
-                <span class="opcao">
-                    <a href="sair.php" style="color: rgb(172, 228, 235);">Sair</a><br>
-                </span>
-                <?php
-                    }
-                    elseif(empty($_SESSION['valido'])){
-                ?>
-                <span class="opcao">
-                    <a href="cadastro.php">Cadastrar-se |</a>
-                    <a href="login.php"> Realizar login</a>
-                </span>
-                <?php
-                    }
-                ?>
-            </div>
-            <p>
-                Bem vindo(a)! Nosso objetivo com este site é criar uma comunidade
-                que compartilha seus filmes favoritos.
-            </p>
-            <p>
-                Aqui, você pode escrever resenhas para diversos filmes - 
-                e ler as resenhas de outros usuários!<br>
-                Crie sua conta ou faça login para começar.
-            </p>
-            <p>
-                A única regra que temos é:
-                Seja respeitoso em sua escrita, evitando o uso de linguagem inapropriada sempre que possível.
-            </p>
-            <p>
-                Qualquer dúvida, nos contate:<br>
-                Email: filmesbase@emaildeverdade.com.br
-                Telefone: +99 (00) 3333-5555
-            </p><hr/>
-        </div> 
-    </body>
-</html>
+<div class="p-5 mb-4 bg-dark rounded-3 border border-secondary">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Sobre o FilmesBase</h1>
+        <p class="col-md-8 fs-4">Bem-vindo(a)! Nosso objetivo com este site é criar uma comunidade que compartilha suas paixões e opiniões sobre filmes.</p>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 text-bg-dark rounded-3 border border-secondary">
+            <h2>Nossa Missão</h2>
+            <p>Aqui, você pode escrever resenhas para diversos filmes e ler as resenhas de outros usuários! Crie sua conta ou faça login para começar a jornada.</p>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <h2>Nossa Regra</h2>
+            <p>A única regra que temos é: seja respeitoso em sua escrita, evitando o uso de linguagem inapropriada. Críticas construtivas são sempre bem-vindas!</p>
+            <hr>
+            <p class="mb-0"><strong>Contato:</strong> filmesbase@emaildeverdade.com.br</p>
+        </div>
+    </div>
+</div>
+
+<?php include 'footer.php'; ?>

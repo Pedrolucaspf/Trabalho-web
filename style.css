@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #212529; /* Cor de fundo escura do Bootstrap */
+}
+
+main {
+    flex: 1;
+}
+
+.card-movie {
+    transition: transform .2s;
+}
+
+.card-movie:hover {
+    transform: scale(1.05);
+}

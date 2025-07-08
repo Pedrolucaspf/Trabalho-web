@@ -1,33 +1,40 @@
-<?php
-    session_start();
-?>
+<?php include 'header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="style.css">
-        <title>Login</title>
-    </head>
-    <body>
-        <form action="validarlogin.php" method="post">
-            <a href="index.php"> Retornar à página principal</a>
-            <h1>Login</h1>
-            <input type="email" maxlength="50" size="30" name="email" placeholder="Email" required>
-            <input type="password" maxlength="25" size="30" name="senha" placeholder="Senha" required>
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card bg-dark border-secondary">
+            <div class="card-body">
+                <h1 class="card-title text-center mb-4">Login</h1>
 
-            <input id="button" type="submit" value="Logar">
-            <?php
-            if(isset($_SESSION['invalido'])):
-            ?>
-            <div class="msg">
-                <p>Email ou senha inválidos</p>
-                <p>Ainda não se cadastrou? Clique <a href="cadastro.php">aqui</a></p>
+                <?php if (isset($_SESSION['invalido'])) : ?>
+                    <div class="alert alert-danger">
+                        Email ou senha inválidos.
+                    </div>
+                    <?php unset($_SESSION['invalido']); ?>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['erro_login'])) : ?>
+                    <div class="alert alert-warning">
+                        <?php echo $_SESSION['erro_login']; unset($_SESSION['erro_login']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="validarlogin.php" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" maxlength="50" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha:</label>
+                        <input type="password" class="form-control" maxlength="25" name="senha" placeholder="Senha" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Logar</button>
+                    </div>
+                </form>
+                <p class="mt-3 text-center">Ainda não se cadastrou? <a href="cadastro.php">Clique aqui</a></p>
             </div>
-            <?php
-            endif;
-            unset($_SESSION['invalido']);
-            ?>
-        </form>
-    </body>
-</html>
+        </div>
+    </div>
+</div>
+
+<?php include 'footer.php'; ?>
