@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS `filme`;
 CREATE TABLE IF NOT EXISTS `filme` (
   `id` int(10) NOT NULL,
   `titulo` varchar(60) NOT NULL,
-  `nota_media` double(1,1) UNSIGNED DEFAULT NULL,
+  `nota_media` double(3,1) UNSIGNED DEFAULT NULL,
   `poster` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `titulo` (`titulo`)
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `resenha` (
   `idfilme` int(10) NOT NULL,
   `idusuario` int(10) NOT NULL,
   `conteudo` varchar(2000) NOT NULL,
-  `nota` double(1,1) NOT NULL,
+  `nota` double(3,1) NOT NULL,
   `utilCounter` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idfilme` (`idfilme`),

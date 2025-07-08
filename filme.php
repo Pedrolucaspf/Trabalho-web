@@ -1,5 +1,5 @@
 <?php
-include("header.php"); 
+include("header.php");
 
 $id = $_GET['id'] ?? 0;
 if ($id == 0) {
@@ -7,6 +7,14 @@ if ($id == 0) {
     exit;
 }
 
+
+$sql_filme_info = "SELECT nota_media FROM filme WHERE id = ?";
+$stmt_filme = $con->prepare($sql_filme_info);
+$stmt_filme->bind_param("i", $id);
+$stmt_filme->execute();
+$filme_info = $stmt_filme->get_result()->fetch_assoc();
+$nota_media = $filme_info['nota_media'] ?? null; 
+$stmt_filme->close();
 
 $sql_resenhas = "SELECT r.*, u.username 
                  FROM resenha r 
@@ -26,9 +34,13 @@ $resul_resenhas = $stmt->get_result();
     <div class="col-md-4">
         <div id="poster"></div>
     </div>
-
+  
     <div class="col-md-8">
         <h1 id="titulo" class="mb-3"></h1>
+        
+
+        <div id="nota-media-container" class="fs-4 mb-3"></div>
+        
         <p id="ano-generos" class="text-muted"></p>
         <p id="descricao"></p>
 
@@ -83,7 +95,7 @@ $resul_resenhas = $stmt->get_result();
                 <div class="card bg-dark border-secondary mb-3">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($resenha['username']); ?></h5>
-                        <h6 class="card-subtitle mb-2 text-warning">Nota: <?php echo htmlspecialchars($resenha['nota']); ?> / 10</h6>
+                        <h6 class="card-subtitle mb-2 text-warning">Nota: <?php echo htmlspecialchars(number_format($resenha['nota'], 1)); ?> / 10</h6>
                         <p class="card-text"><?php echo nl2br(htmlspecialchars($resenha['conteudo'])); ?></p>
                     </div>
                 </div>
@@ -96,6 +108,15 @@ $resul_resenhas = $stmt->get_result();
 
 <script>
 
+    const notaMedia = <?php echo ($nota_media !== null) ? number_format($nota_media, 1, '.', '') : 'null'; ?>;
+    const notaMediaContainer = document.getElementById('nota-media-container');
+
+    if (notaMedia !== null) {
+        notaMediaContainer.innerHTML = `<span class="badge bg-warning text-dark">Nota Média: ${notaMedia.toFixed(1)} / 10</span>`;
+    } else {
+        notaMediaContainer.innerHTML = `<span class="badge bg-secondary">Ainda sem avaliações</span>`;
+    }
+    
     const apiKey = '3d95436f221ecc042835cce231115c26';
     const movieId = Number(document.getElementById("idfilme").innerHTML);
 
@@ -107,7 +128,6 @@ $resul_resenhas = $stmt->get_result();
         document.getElementById('titulo').textContent = filme.title;
         document.title = filme.title + " | FilmesBase"; 
 
-        // Poster
         const posterDiv = document.getElementById('poster');
         if (filme.poster_path) {
             posterDiv.innerHTML = `<img src="https://image.tmdb.org/t/p/w500${filme.poster_path}" class="img-fluid rounded">`;
@@ -120,16 +140,16 @@ $resul_resenhas = $stmt->get_result();
         const generos = filme.genres.map(g => g.name).join(', ');
         document.getElementById('ano-generos').textContent = `Ano: ${ano} | Gêneros: ${generos}`;
 
-        // Elenco
         const elencoUl = document.getElementById('elenco');
+        elencoUl.innerHTML = ''; 
         filme.credits.cast.slice(0, 5).forEach(ator => {
             const li = document.createElement('li');
             li.textContent = `${ator.name} (como ${ator.character})`;
             elencoUl.appendChild(li);
         });
 
-        // Imagens
         const imagensDiv = document.getElementById('imagens');
+        imagensDiv.innerHTML = ''; 
         if (filme.images.backdrops.length > 0) {
             filme.images.backdrops.slice(0, 4).forEach(imgData => {
                 const col = document.createElement('div');
@@ -141,7 +161,6 @@ $resul_resenhas = $stmt->get_result();
             imagensDiv.innerHTML = '<p>Nenhuma imagem disponível.</p>';
         }
 
-        // Trailer
         const trailerDiv = document.getElementById('trailer');
         const trailer = filme.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
         if (trailer) {
@@ -156,5 +175,5 @@ $resul_resenhas = $stmt->get_result();
 
 <?php
 $stmt->close();
-include("footer.php"); 
+include("footer.php");
 ?>
